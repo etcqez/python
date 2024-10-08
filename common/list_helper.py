@@ -71,7 +71,7 @@ class ListHelper:
         :param func_handle: 需要求和的处理逻辑, 函数类型
         :return: 和
         """
-        sum_value=0
+        sum_value = 0
         for item in list_target:
             sum_value += func_handle()
             return sum_value
@@ -93,10 +93,59 @@ class ListHelper:
             通用的获取最大元素方法
         :param list_target: 需要搜索的列表
         :param func_handle: 需要搜索的处理逻辑, 函数类型
-        :return: 生成器
+        :return: 最大元素
         """
-        max_value=list_target[0]
-        for i in range(1,len(list_target)):
+        max_value = list_target[0]
+        for i in range(1, len(list_target)):
             if func_handle(max_value) < func_handle(list_target[i]):
                 max_value = list_target[i]
-        return  max_value
+        return max_value
+
+    @staticmethod
+    def get_min(list_target, func_handle):
+        """
+            通用的获取最小元素方法
+        :param list_target: 需要搜索的列表
+        :param func_handle: 需要搜索的处理逻辑, 函数类型
+        :return: 最小元素
+        """
+        min_value = list_target[0]
+        for i in range(1, len(list_target)):
+            if func_handle(min_value) > func_handle(list_target[i]):
+                min_value = list_target[i]
+        return min_value
+
+    @staticmethod
+    def order_by(list_target, func_handle):
+        """
+            通用的升序排列方法
+        :param list_target: 需要排序的列表
+        :param func_handle: 排序逻辑, 函数类型
+        """
+        for r in range(len(list_target) - 1):
+            for c in range(r + 1, len(list_target)):
+                if func_handle(list_target[r]) > func_handle(list_target[c]):
+                    list_target[r], list_target[c] = list_target[c], list_target[r]
+
+    @staticmethod
+    def order_by_descending(list_target, func_handle):
+        """
+            通用的降序排列方法
+        :param list_target: 需要排序的列表
+        :param func_handle: 排序逻辑, 函数类型
+        """
+        for r in range(len(list_target) - 1):
+            for c in range(r + 1, len(list_target)):
+                if func_handle(list_target[r]) < func_handle(list_target[c]):
+                    list_target[r], list_target[c] = list_target[c], list_target[r]
+
+    @staticmethod
+    def delete_all(list_target, func_condition):
+        """
+            根据指定条件, 删除所有元素
+        :param list_target: 需要扣伯的列表
+        :param func_condition: 删除条件, 函数类型
+        """
+        for i in range(len(list_target) - 1, -1, -1):
+            if func_condition(list_target[i]):
+                del list_target[i]
